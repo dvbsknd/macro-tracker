@@ -1,6 +1,10 @@
 # Macro Tracker
 
-This is a personal project which I've decided to undertake in lieu of the three final challenges for freeCodeCamp's [Quality Assurance Projects](https://www.freecodecamp.org/learn/quality-assurance/quality-assurance-projects/issue-tracker) certification. I would ideally like to complete the modules as presented, however their quality is really poor and I can't quite bring myself to walk through them just for the sake of getting the tick of approval. Instead, I've decided to build something using the same concepts and tools they are intended to teach, but it'll be something I'm actually likely to use and I'll push things further to build a more full-featured solution. I will submit this project as to freeCodeCamp in order to receive the qualification, which at the time of writing can be done by supplying literally any URL at all—not exactly rigorous.
+This is a personal project which I've decided to undertake in lieu of the three final challenges for freeCodeCamp's [Quality Assurance Projects](https://www.freecodecamp.org/learn/quality-assurance/quality-assurance-projects/issue-tracker) certification. 
+
+I would ideally like to complete the modules as presented, however their quality is really poor and I can't quite bring myself to walk through them just for the sake of getting the tick of approval. Instead, I've decided to build something using the same concepts and tools they are intended to teach, but it'll be something I'm actually likely to use and I'll push things further to build a more full-featured solution. 
+
+I _will_ submit this project as to freeCodeCamp in order to receive the qualification, which at the time of writing can be done by supplying literally any URL at all—not exactly rigorous.
 
 ## Services & Architecture
 
@@ -42,4 +46,7 @@ Development steps are documented here for tracking and articulating progress:
 
 ### Todo
 
-1. Set up a React app for the front-end and get rid of Bootstrap
+1. Try setting up a [Webpack dev server](https://github.com/webpack/webpack-dev-server)
+1. Set up a [React app from scratch](https://blog.usejournal.com/creating-a-react-app-from-scratch-f3c693b84658) for the front-end and get rid of Bootstrap
+1. Probably create something like a `/client/src/components` folder structure with builds going to `/public/js`, perhaps
+1. Stup out an API get endpoint to give data to the SPA
