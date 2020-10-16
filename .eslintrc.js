@@ -4,12 +4,13 @@ module.exports = {
     "browser": true,
     "commonjs": true,
     "es2021": true,
-    "mocha": true,
-    "jquery": true
+    "mocha": true
   },
   "extends": "eslint:recommended",
+  parser: 'babel-eslint',
   "parserOptions": {
-    "ecmaVersion": 12
+    "ecmaVersion": 12,
+    "sourceType": "module"
   },
   "rules": {
   }

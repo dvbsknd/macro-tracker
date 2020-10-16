@@ -27,6 +27,8 @@ The rest is pretty straightforward, with `npm` for package management and `nodem
 
 Notable packages and concepts include:
 
+1. [Webpack](https://webpack.js.org/) for bundling and building the client React app
+1. [Babel](https://babeljs.io/) for transpiling from modern JavaScript
 1. [Express](https://www.npmjs.com/package/express)
 1. [Helmet](https://www.npmjs.com/package/helmet) and [CORS](https://www.npmjs.com/package/cors) for setting appropriate headers
 1. [MongoDB](https://www.npmjs.com/package/mongodb)
@@ -43,10 +45,13 @@ Development steps are documented here for tracking and articulating progress:
 ### Done
 
 1. Initialise the repo and add some basic framework
+1. Getting set-up with and learning Webpack basics
+1. Setting up a [Webpack dev server](https://github.com/webpack/webpack-dev-server)
 
 ### Todo
 
-1. Try setting up a [Webpack dev server](https://github.com/webpack/webpack-dev-server)
-1. Set up a [React app from scratch](https://blog.usejournal.com/creating-a-react-app-from-scratch-f3c693b84658) for the front-end and get rid of Bootstrap
-1. Probably create something like a `/client/src/components` folder structure with builds going to `/public/js`, perhaps
-1. Stup out an API get endpoint to give data to the SPA
+1. Get rid of the EJS static page renders and Bootstrap
+1. Set-up the API development environment
+1. Configure Express to serve the static client files when required
+1. Create an API `dev:api` script to run client and API in parallel
+1. Stub out an API get endpoint to give data to the SPA
