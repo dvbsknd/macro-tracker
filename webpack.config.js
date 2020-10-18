@@ -1,10 +1,5 @@
 const path = require('path');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
-const HtmlWebPackPluginConfig = {
-  title: 'Macro Tracker',
-  template: path.resolve(__dirname, './client/template.html'),
-  filename: 'index.html'
-}
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const webpack = require('webpack');
@@ -25,11 +20,15 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, './public'),
-    filename: '[name].js'
+    filename: '[name].bundle.js'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebPackPlugin(HtmlWebPackPluginConfig),
+    new HtmlWebpackPlugin({
+      title: 'Macro Tracker',
+      template: path.resolve(__dirname, './client/template.html'),
+      filename: 'index.html'
+    }),
     new CleanWebpackPlugin(),
     new ImageMinimizerPlugin({
       minimizerOptions: {
