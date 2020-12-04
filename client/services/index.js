@@ -38,7 +38,6 @@ const database = {
 };
 
 const getTotal = (value) => {
-  let acc = 0;
   return database.log.reduce((acc, curr) => {
     return acc + (curr.qty * curr.nutrition[value]);
   }, 0);
@@ -47,7 +46,7 @@ const getTotal = (value) => {
 database.totals = {
   // This should be nested within a Day with children Items and Totals from
   // the database. The API should handle the logic for calculating/returning
-  // totals for each day, but the front-end may need to update the display 
+  // totals for each day, but the front-end may need to update the display
   // totals until the database is able to calculate and return them
   protein: getTotal('protein'),
   fat: getTotal('fat'),
@@ -57,10 +56,10 @@ database.totals = {
 
 export const API = {
   fetch: function (collection) {
-    return new Promise((resolve, reject) => resolve(database[collection]));
+    return new Promise((resolve) => resolve(database[collection]));
   },
   schema: function () { return schema.food },
   totals: function () {
-    return new Promise((resolve, reject) => resolve(database.totals));
+    return new Promise((resolve) => resolve(database.totals));
   },
 };

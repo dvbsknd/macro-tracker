@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   List,
   Table,
@@ -15,22 +16,22 @@ const getColour = (stat) => {
   return colourMap[stat];
 }
 
-export default function FoodList ({ foods, logFood }) {
+function FoodList ({ foods, logFood }) {
   return (
     <List>
       {foods.map(item => {
-        const { id, name, serving, qty, nutrition } = item;
+        const { id, name, serving, nutrition } = item;
         const stats = Object.keys(nutrition);
         return (
-          <List.Item key={id} tabIndex='0' 
+          <List.Item key={id} tabIndex='0'
             onClick={(e) => logFood(e, id)}
             onKeyPress={(e) => logFood(e, id)}>
             <List.Content>
               <Table size='small' basic='very' collapsing>
                 <Table.Body>
                   <Table.Row>
-                    <Table.HeaderCell colSpan='2'>
-                      {name}
+                    <Table.HeaderCell colSpan='4'>
+                      {name} ({serving})
                     </Table.HeaderCell>
                   </Table.Row>
                   <Table.Row>
@@ -51,4 +52,11 @@ export default function FoodList ({ foods, logFood }) {
       })}
     </List>
   )
+}
+
+FoodList.propTypes = {
+  foods: PropTypes.array.isRequired,
+  logFood: PropTypes.func.isRequired,
 };
+
+export default FoodList;

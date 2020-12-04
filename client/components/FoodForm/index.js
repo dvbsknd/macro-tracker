@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Form,
   Divider,
   Button,
 } from 'semantic-ui-react';
 
-export default function FoodForm ({ input, setInput, handleChange, saveFood }) {
+function FoodForm ({ input, handleChange, saveFood }) {
   const keys = Object.keys(input).filter(key => key !== 'name');
   return (
     <>
@@ -25,4 +26,12 @@ export default function FoodForm ({ input, setInput, handleChange, saveFood }) {
       </Form>
     </>
   )
+}
+
+FoodForm.propTypes = {
+  input: PropTypes.object.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  saveFood: PropTypes.func.isRequired,
 };
+
+export default FoodForm;

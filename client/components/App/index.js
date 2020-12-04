@@ -2,11 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   Container,
   Form,
-  List,
-  Table,
   Input,
   Icon,
-  Label
 } from 'semantic-ui-react';
 import Log from '../Log';
 import FoodForm from '../FoodForm';
@@ -19,7 +16,7 @@ export default function App () {
 
   // Initialise the app in a "loading" state
   // and set up all states
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [foods, setFoods] = useState();
   const [log, setLog] = useState();
   const [totals, setTotals] = useState();
@@ -29,8 +26,8 @@ export default function App () {
 
   // Set an empty input field for each one specified by the Schema
   const inputs = {};
-  const schemaFields = Object.keys(API.schema())
-    .forEach(key => inputs[key] = '');;
+  Object.keys(API.schema())
+    .forEach(key => inputs[key] = '');
 
   const [input, setInput] = useState(inputs);
   const clearInput = () => setInput(inputs);
@@ -42,11 +39,7 @@ export default function App () {
       .then(() => API.fetch('log'))
       .then(data => setLog(data))
       .then(() => API.totals())
-      .then(data => {
-        console.log(data);
-        setTotals(data)
-      })
-      .then(() => setLoading(false));
+      .then(data => setTotals(data))
   }, []);
 
   const handleChange = (e) => {
@@ -91,14 +84,14 @@ export default function App () {
         <Form.Field>
           <label>User Input</label>
           <Input icon placeholder='Search/Add...'>
-            <input name='name' autoFocus 
+            <input name='name' autoFocus
               onChange={handleChange} value={input.name}
               ref={searchField} />
             <Icon name='add' link onClick={createFood} />
           </Input>
         </Form.Field>
       </Form>
-      {editMode && (<FoodForm input={input} setInput={setInput} 
+      {editMode && (<FoodForm input={input} setInput={setInput}
         saveFood={saveFood} handleChange={handleChange} />)}
       {foods && (
         <FoodList foods={foods.filter(food => {
@@ -108,4 +101,4 @@ export default function App () {
       )}
     </Container>
   );
-};
+}

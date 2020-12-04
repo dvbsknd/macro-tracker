@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Table,
 } from 'semantic-ui-react';
 
-export default function Log ({ log, totals }) {
+function Log ({ log, totals }) {
   return (
     <Table size='small'>
       <Table.Header>
@@ -47,4 +48,11 @@ export default function Log ({ log, totals }) {
       </Table.Footer>
     </Table>
   )
+}
+
+Log.propTypes = {
+  log: PropTypes.array.isRequired,
+  totals: PropTypes.object.isRequired,
 };
+
+export default Log;
