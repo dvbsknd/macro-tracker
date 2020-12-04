@@ -1,4 +1,4 @@
-import React, { useState, createRef } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Container,
   Form,
@@ -11,19 +11,16 @@ import {
 import FoodForm from '../FoodForm';
 import FoodList from '../FoodList';
 import './App.scss';
+import { randInt } from '../../../utils';
 
 export default function App () {
 
-  const randVal = (lo, hi) => {
-    return lo + Math.floor(Math.random() * (hi - lo));
-  };
-
   const mockValues = () => {
     return {
-      protein: randVal(1,30),
-      fat: randVal(1,15),
-      carbs: randVal(20,300),
-      calories: randVal(20,500)
+      protein: randInt(1,30),
+      fat: randInt(1,15),
+      carbs: randInt(20,300),
+      calories: randInt(20,500)
     };
   };
 
@@ -40,7 +37,7 @@ export default function App () {
     }, 0);
   };
 
-  const searchField = createRef();
+  const searchField = useRef();
   const inputDefault = {
     name: '',
     serving: '',
@@ -76,15 +73,16 @@ export default function App () {
     // Store nutrition info in a sub-document
     const nutrition = { protein, fat, carbs, calories};
     // Give it an ID
-    const id = randVal(100000, 999999);
+    const id = randInt(100000, 999999);
     // Add it to the state
-    setFoods(foods => [...foods, { id, name, serving, qty: randVal(1,3), nutrition }]);
+    setFoods(foods => [...foods, { id, name, serving, qty: randInt(1,3), nutrition }]);
     // Clear all input
     clearInput();
     // Turn off the form
     setEditMode(false);
     // Put focus back in the form
     console.log(searchField);
+    searchField.current.focus();
   }
 
   const logFood = (e, id) => {
