@@ -8,6 +8,7 @@ import {
   Icon,
   Label
 } from 'semantic-ui-react';
+import Log from '../Log';
 import FoodForm from '../FoodForm';
 import FoodList from '../FoodList';
 import './App.scss';
@@ -19,9 +20,9 @@ export default function App () {
   // Initialise the app in a "loading" state
   // and set up all states
   const [loading, setLoading] = useState(true);
-  const [foods, setFoods] = useState({});
-  const [log, setLog] = useState({});
-  const [totals, setTotals] = useState({});
+  const [foods, setFoods] = useState();
+  const [log, setLog] = useState();
+  const [totals, setTotals] = useState();
   const [editMode, setEditMode] = useState(false);
   // For setting focus after form submission
   const searchField = useRef();
@@ -85,47 +86,7 @@ export default function App () {
 
   return (
     <Container>
-      <Table size='small'>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Food</Table.HeaderCell>
-            <Table.HeaderCell>Serving</Table.HeaderCell>
-            <Table.HeaderCell>Qty.</Table.HeaderCell>
-            <Table.HeaderCell>Protein.</Table.HeaderCell>
-            <Table.HeaderCell>Fat</Table.HeaderCell>
-            <Table.HeaderCell>Carbs</Table.HeaderCell>
-            <Table.HeaderCell>Calories</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {log.map && log.map(item => {
-            const { id, name, serving, qty, nutrition } = item;
-            const { protein, fat, carbs, calories } = nutrition;
-            return (
-              <Table.Row key={id}>
-                <Table.Cell>{name}</Table.Cell>
-                <Table.Cell>{serving}</Table.Cell>
-                <Table.Cell>{qty}</Table.Cell>
-                <Table.Cell>{qty * protein}</Table.Cell>
-                <Table.Cell>{qty * fat}</Table.Cell>
-                <Table.Cell>{qty * carbs}</Table.Cell>
-                <Table.Cell>{qty * calories}</Table.Cell>
-              </Table.Row>
-            )
-          })}
-        </Table.Body>
-        <Table.Footer>
-          <Table.Row>
-            <Table.HeaderCell />
-            <Table.HeaderCell />
-            <Table.HeaderCell />
-            {totals && Object.keys(totals).map(key => {
-              return (
-                <Table.HeaderCell key={key}>{totals[key]}</Table.HeaderCell>
-              )})}
-          </Table.Row>
-        </Table.Footer>
-      </Table>
+      {log && totals && (<Log log={log} totals={totals} />)}
       <Form onSubmit={createFood}>
         <Form.Field>
           <label>User Input</label>
@@ -139,7 +100,7 @@ export default function App () {
       </Form>
       {editMode && (<FoodForm input={input} setInput={setInput} 
         saveFood={saveFood} handleChange={handleChange} />)}
-      {foods.filter && (
+      {foods && (
         <FoodList foods={foods.filter(food => {
           const regex = new RegExp(input.name,'gi');
           return food.name.match(regex);
