@@ -1,17 +1,32 @@
 module.exports = {
-  "env": {
-    "node": true,
-    "browser": true,
-    "commonjs": true,
-    "es2021": true,
-    "mocha": true
+  env: {
+    mocha: true,
+    commonjs: true,
+    browser: true,
+    node: true,
+    es6: true
   },
-  "extends": "eslint:recommended",
-  parser: 'babel-eslint',
-  "parserOptions": {
-    "ecmaVersion": 12,
-    "sourceType": "module"
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended'
+  ],
+  ignorePatterns: ['/public'],
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true
+    },
+    ecmaVersion: 2018,
+    sourceType: 'module'
   },
-  "rules": {
+  plugins: [
+    'react'
+  ],
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  },
+  rules: {
+    'no-trailing-spaces': 'warn'
   }
 };
