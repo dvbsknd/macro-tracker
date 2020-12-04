@@ -1,7 +1,6 @@
-$font-size: 1.2rem;
-$font-color: lch(53 105 90);
+/* Just some dummy styles to remind that SASS is here */
+$site-padding: 2em;
 
-html {
-  font-size: $font-size;
-  color: $font-color;
+#root {
+  margin-top: $site-padding;
 }
