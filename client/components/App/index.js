@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Container,
   Form,
@@ -12,49 +12,41 @@ import FoodForm from '../FoodForm';
 import FoodList from '../FoodList';
 import './App.scss';
 import { randInt } from '../../../utils';
+import { API } from '../../services/';
 
 export default function App () {
 
-  const mockValues = () => {
-    return {
-      protein: randInt(1,30),
-      fat: randInt(1,15),
-      carbs: randInt(20,300),
-      calories: randInt(20,500)
-    };
-  };
-
-  const [foods, setFoods] = useState([
-    { id: 847204, name: 'Banana', serving: '1 medium', qty: 1, nutrition: mockValues() },
-    { id: 814439, name: 'Orange', serving: '1 medium', qty: 1, nutrition: mockValues() },
-    { id: 147423, name: 'Home Made Meal', serving: '1 main portion', qty: 1, nutrition: mockValues() },
-  ]);
-
-  const getTotal = (value) => {
-    let acc = 0;
-    return log.reduce((acc, curr) => {
-      return acc + (curr.qty * curr.nutrition[value]);
-    }, 0);
-  };
-
-  const searchField = useRef();
-  const inputDefault = {
-    name: '',
-    serving: '',
-    protein: '',
-    fat: '',
-    carbs: '',
-    calories: ''
-  };
-  const [input, setInput] = useState(inputDefault);
-  const clearInput = () => setInput(inputDefault);
-
-  const [log, setLog] = useState([
-    { id: 610484, name: 'Old Gold Rum & Raisin', serving: '1 row', qty: 2, nutrition: mockValues() },
-    { id: 592341, name: 'Steel Cut Oats', serving: '1/2 cup, uncooked', qty: 1, nutrition: mockValues() }
-  ]);
-
+  // Initialise the app in a "loading" state
+  // and set up all states
+  const [loading, setLoading] = useState(true);
+  const [foods, setFoods] = useState({});
+  const [log, setLog] = useState({});
+  const [totals, setTotals] = useState({});
   const [editMode, setEditMode] = useState(false);
+  // For setting focus after form submission
+  const searchField = useRef();
+
+  // Set an empty input field for each one specified by the Schema
+  const inputs = {};
+  const schemaFields = Object.keys(API.schema())
+    .forEach(key => inputs[key] = '');;
+
+  const [input, setInput] = useState(inputs);
+  const clearInput = () => setInput(inputs);
+
+  // Get food and log data
+  useEffect(() => {
+    API.fetch('foods')
+      .then(data => setFoods(data))
+      .then(() => API.fetch('log'))
+      .then(data => setLog(data))
+      .then(() => API.totals())
+      .then(data => {
+        console.log(data);
+        setTotals(data)
+      })
+      .then(() => setLoading(false));
+  }, []);
 
   const handleChange = (e) => {
     const { value } = e.target;
@@ -81,7 +73,6 @@ export default function App () {
     // Turn off the form
     setEditMode(false);
     // Put focus back in the form
-    console.log(searchField);
     searchField.current.focus();
   }
 
@@ -107,7 +98,7 @@ export default function App () {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {log.map(item => {
+          {log.map && log.map(item => {
             const { id, name, serving, qty, nutrition } = item;
             const { protein, fat, carbs, calories } = nutrition;
             return (
@@ -128,10 +119,10 @@ export default function App () {
             <Table.HeaderCell />
             <Table.HeaderCell />
             <Table.HeaderCell />
-            <Table.HeaderCell>{getTotal('protein')}</Table.HeaderCell>
-            <Table.HeaderCell>{getTotal('fat')}</Table.HeaderCell>
-            <Table.HeaderCell>{getTotal('carbs')}</Table.HeaderCell>
-            <Table.HeaderCell>{getTotal('calories')}</Table.HeaderCell>
+            {totals && Object.keys(totals).map(key => {
+              return (
+                <Table.HeaderCell key={key}>{totals[key]}</Table.HeaderCell>
+              )})}
           </Table.Row>
         </Table.Footer>
       </Table>
@@ -148,11 +139,11 @@ export default function App () {
       </Form>
       {editMode && (<FoodForm input={input} setInput={setInput} 
         saveFood={saveFood} handleChange={handleChange} />)}
-      {foods && (
+      {foods.filter && (
         <FoodList foods={foods.filter(food => {
-              const regex = new RegExp(input.name,'gi');
-              return food.name.match(regex);
-      })} logFood={logFood} />
+          const regex = new RegExp(input.name,'gi');
+          return food.name.match(regex);
+        })} logFood={logFood} />
       )}
     </Container>
   );

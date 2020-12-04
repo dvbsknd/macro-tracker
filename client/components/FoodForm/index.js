@@ -14,10 +14,12 @@ export default function FoodForm ({ input, setInput, handleChange, saveFood }) {
       </Divider>
       <Form onSubmit={saveFood} >
         <Form.Group widths='equal'>
-          {input && keys.map(key => (
-            <Form.Input name={key} key={key} fluid label={key} onChange={handleChange}
+          {input && keys.map(key => {
+            const label = key.replace(key[0], key[0].toUpperCase())
+            return (
+            <Form.Input name={key} key={key} fluid label={label} onChange={handleChange}
               placeholder='Enter...' value={input[key]} />
-          ))}
+          )})}
         </Form.Group>
         <Button type='submit'>Add</Button>
       </Form>
