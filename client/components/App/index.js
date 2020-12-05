@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Container,
-  Header,
   Form,
   Input,
   Icon,
@@ -11,7 +10,7 @@ import FoodForm from '../FoodForm';
 import FoodList from '../FoodList';
 import DateScrubber from '../DateScrubber';
 import './App.scss';
-import { randInt, today, isoDate } from '../../../utils';
+import { randInt, today } from '../../../utils';
 import { API } from '../../services/';
 
 export default function App () {
@@ -37,6 +36,8 @@ export default function App () {
   // Get the log and totals for today
   useEffect(() => {
     API.fetchLog(date)
+    // TODO: Separate entries and totals back out here but leave them
+    // consolidate in the API call
       .then(data => setLog(data))
       .catch(() => setLog())
   }, [date]);
@@ -78,7 +79,15 @@ export default function App () {
   const logFood = (e, id) => {
     if (e.key === 'Enter' || e.key === ' ' || !e.key) {
       const food = foods.find(food => food.id === id);
-      setLog(log => [...log, food]);
+      setLog(log => {
+        const { entries, totals } = log;
+        return {
+          entries: [...entries, food],
+          // TODO: Increment the totals with the selected food's values
+          totals
+        }
+      });
+      searchField.current.focus();
     } else console.log(e.key);
   };
 
