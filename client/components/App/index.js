@@ -8,8 +8,9 @@ import {
 import Log from '../Log';
 import FoodForm from '../FoodForm';
 import FoodList from '../FoodList';
+import DateScrubber from '../DateScrubber';
 import './App.scss';
-import { randInt } from '../../../utils';
+import { randInt, today } from '../../../utils';
 import { API } from '../../services/';
 
 export default function App () {
@@ -20,6 +21,7 @@ export default function App () {
   const [foods, setFoods] = useState();
   const [log, setLog] = useState();
   const [totals, setTotals] = useState();
+  const [date, setDate] = useState(today);
   const [editMode, setEditMode] = useState(false);
   // For setting focus after form submission
   const searchField = useRef();
@@ -32,14 +34,19 @@ export default function App () {
   const [input, setInput] = useState(inputs);
   const clearInput = () => setInput(inputs);
 
-  // Get food and log data
+  // Get the log and totals for today
   useEffect(() => {
-    API.fetch('foods')
+    API.fetchLog(date)
+      .then(data => {
+        setLog(data.entries);
+        setTotals(data.totals);
+      })
+  }, [date]);
+
+  // Get the food data (once)
+  useEffect(() => {
+    API.fetchFoods()
       .then(data => setFoods(data))
-      .then(() => API.fetch('log'))
-      .then(data => setLog(data))
-      .then(() => API.totals())
-      .then(data => setTotals(data))
   }, []);
 
   const handleChange = (e) => {
@@ -80,6 +87,7 @@ export default function App () {
   return (
     <Container>
       {log && totals && (<Log log={log} totals={totals} />)}
+      <DateScrubber date={date} setDate={setDate} />
       <Form onSubmit={createFood}>
         <Form.Field>
           <label>User Input</label>
