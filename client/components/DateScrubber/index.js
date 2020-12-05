@@ -1,21 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Container,
+  Grid,
   Button,
+  Header,
 } from 'semantic-ui-react';
-import { yesterday, tomorrow } from '../../../utils';
+import { isoDate, yesterday, tomorrow } from '../../../utils';
 
 function DateScrubber ({ date, setDate }) {
   return (
-    <Container fluid textAlign='right'>
-      <Button.Group>
-        <Button compact icon='left chevron'
-          onClick={() => setDate(yesterday(date))}/>
-        <Button compact icon='right chevron'
-          onClick={() => setDate(tomorrow(date))}/>
-      </Button.Group>
-    </Container>
+    <Header as='h3' block>
+      <Grid verticalAlign='middle'>
+        <Grid.Row columns={2}>
+          <Grid.Column>
+            {isoDate(date)}
+          </Grid.Column>
+          <Grid.Column textAlign='right'>
+            <Button.Group>
+              <Button compact icon='left chevron'
+                onClick={() => setDate(yesterday(date))}/>
+              <Button compact icon='right chevron'
+                onClick={() => setDate(tomorrow(date))}/>
+            </Button.Group>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </Header>
   )
 }
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Container,
+  Header,
   Form,
   Input,
   Icon,
@@ -10,7 +11,7 @@ import FoodForm from '../FoodForm';
 import FoodList from '../FoodList';
 import DateScrubber from '../DateScrubber';
 import './App.scss';
-import { randInt, today } from '../../../utils';
+import { randInt, today, isoDate } from '../../../utils';
 import { API } from '../../services/';
 
 export default function App () {
@@ -83,8 +84,8 @@ export default function App () {
 
   return (
     <Container>
-      {log && (<Log log={log} />)}
       <DateScrubber date={date} setDate={setDate} />
+      {log && (<Log log={log} date={date} />)}
       <Form onSubmit={createFood}>
         <Form.Field>
           <label>User Input</label>

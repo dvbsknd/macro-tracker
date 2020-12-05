@@ -89,6 +89,4 @@ const getTotal = (value) => {
 };
 */
 
-console.log(database);
-
 export default database;
