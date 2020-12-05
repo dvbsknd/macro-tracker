@@ -4,7 +4,8 @@ import {
   Table,
 } from 'semantic-ui-react';
 
-function Log ({ log, totals }) {
+function Log ({ log }) {
+  const { entries, totals } = log;
   return (
     <Table size='small'>
       <Table.Header>
@@ -19,7 +20,7 @@ function Log ({ log, totals }) {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {log.map(item => {
+        {entries.map(item => {
           const { id, name, serving, qty, nutrition } = item;
           const { protein, fat, carbs, calories } = nutrition;
           return (
@@ -51,8 +52,21 @@ function Log ({ log, totals }) {
 }
 
 Log.propTypes = {
-  log: PropTypes.array.isRequired,
-  totals: PropTypes.object.isRequired,
+  log: PropTypes.exact({
+    entries: PropTypes.arrayOf(PropTypes.exact({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      serving: PropTypes.string.isRequired,
+      qty: PropTypes.number.isRequired,
+      nutrition: PropTypes.object.isRequired,
+    })).isRequired,
+    totals: PropTypes.shape({
+      protein: PropTypes.number.isRequired,
+      fat: PropTypes.number.isRequired,
+      carbs: PropTypes.number.isRequired,
+      calories: PropTypes.number.isRequired,
+  }).isRequired,
+  })
 };
 
 export default Log;

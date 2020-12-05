@@ -20,7 +20,6 @@ export default function App () {
   // const [loading, setLoading] = useState(true);
   const [foods, setFoods] = useState();
   const [log, setLog] = useState();
-  const [totals, setTotals] = useState();
   const [date, setDate] = useState(today);
   const [editMode, setEditMode] = useState(false);
   // For setting focus after form submission
@@ -37,10 +36,8 @@ export default function App () {
   // Get the log and totals for today
   useEffect(() => {
     API.fetchLog(date)
-      .then(data => {
-        setLog(data.entries);
-        setTotals(data.totals);
-      })
+      .then(data => setLog(data))
+      .catch(() => setLog())
   }, [date]);
 
   // Get the food data (once)
@@ -86,7 +83,7 @@ export default function App () {
 
   return (
     <Container>
-      {log && totals && (<Log log={log} totals={totals} />)}
+      {log && (<Log log={log} />)}
       <DateScrubber date={date} setDate={setDate} />
       <Form onSubmit={createFood}>
         <Form.Field>
